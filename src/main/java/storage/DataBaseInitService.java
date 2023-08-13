@@ -10,7 +10,6 @@ public class DataBaseInitService {
                 .dataSource(StorageConstants.CONNECTION_URL, null, null)
                 .load();
 
-        // Start the migration
         flyway.migrate();
     }
 }
