@@ -14,4 +14,6 @@ public class Client {
     @Column
     private String name;
 
+
+
 }

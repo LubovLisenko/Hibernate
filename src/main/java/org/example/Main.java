@@ -1,5 +1,7 @@
 package org.example;
 
+import entity.Client;
+import entity.Planet;
 import storage.DataBaseInitService;
 
 
@@ -9,16 +11,22 @@ public class Main {
     public static void main(String[] args) throws SQLException {
        new DataBaseInitService().initDb();
 
-        new ClientCrudService().create("newName");
-        new ClientCrudService().update(10, "ModifiedClientName");
+       Client client = new Client();
+       client.setName("newName");
+
+        new ClientCrudService().create(client);
+        new ClientCrudService().update(3, "ModifiedClientName");
         new ClientCrudService().getById(2);
         new ClientCrudService().deleteById(9);
         new ClientCrudService().listAll();
 
-        new PlanetCrudService().create("N6","newPlanet");
-        new PlanetCrudService().getById("N2");
-        new PlanetCrudService().listAll();
-        new PlanetCrudService().deleteById("N3");
+        Planet planet = new Planet();
+        planet.setId("N6");
+        planet.setName("newPlanet");
+
+         new PlanetCrudService().create(planet);
+         new PlanetCrudService().getById("N2");
+         new PlanetCrudService().deleteById("N3");
         new PlanetCrudService().update("N5", "newModifiedPlanet");
         new PlanetCrudService().listAll();
 
