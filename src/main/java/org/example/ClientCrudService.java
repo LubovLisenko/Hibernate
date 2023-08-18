@@ -14,6 +14,7 @@ import java.util.List;
 public class ClientCrudService {
     private final SessionFactory sessionFactory = HibernateUtil.getINSTANCE().getSessionFactory();
     ;
+    long id;
 
     public void create(Client client) {
         Session session = sessionFactory.openSession();
@@ -30,12 +31,13 @@ public class ClientCrudService {
         }
     }
 
-    public  Client update(long id, String name) {
+
+    public void update(Client client) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Client existing = session.get(Client.class, id);
+        Client existing = session.get(Client.class, client.getId());
         try {
-            existing.setName(name);
+            existing.setName(client.getName());
             session.persist(existing);
             transaction.commit();
         } catch (Exception ex) {
@@ -45,7 +47,6 @@ public class ClientCrudService {
         } finally {
             session.close();
         }
-        return existing;
     }
 
 

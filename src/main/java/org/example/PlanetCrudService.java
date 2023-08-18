@@ -26,12 +26,12 @@ public class PlanetCrudService {
        }
     }
 
-    public  Planet update(String id, String name){
+    public  void update(Planet planet){
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Planet existing = session.get(Planet.class, id);
+        Planet existing = session.get(Planet.class, planet.getId());
         try {
-            existing.setName(name);
+            existing.setName(planet.getName());
             session.persist(existing);
             transaction.commit();
         } catch (Exception ex){
@@ -41,7 +41,6 @@ public class PlanetCrudService {
         } finally {
             session.close();
         }
-        return existing;
     }
 
     public Planet getById(String id){

@@ -13,9 +13,13 @@ public class Main {
 
        Client client = new Client();
        client.setName("newName");
+       new ClientCrudService().create(client);
 
-        new ClientCrudService().create(client);
-        new ClientCrudService().update(3, "ModifiedClientName");
+        Client  client1 = new ClientCrudService().listAll().get(3);
+        client1.setName("nameModify");
+        System.out.println("client1 = " + client1);
+
+        new ClientCrudService().update(client1);
         new ClientCrudService().getById(2);
         new ClientCrudService().deleteById(9);
         new ClientCrudService().listAll();
@@ -23,11 +27,13 @@ public class Main {
         Planet planet = new Planet();
         planet.setId("N6");
         planet.setName("newPlanet");
+        new PlanetCrudService().create(planet);
 
-         new PlanetCrudService().create(planet);
+        Planet planet1 = new PlanetCrudService().listAll().get(4);
+        planet1.setName("newModifiedPlanet");
+        new PlanetCrudService().update(planet1);
          new PlanetCrudService().getById("N2");
          new PlanetCrudService().deleteById("N3");
-        new PlanetCrudService().update("N5", "newModifiedPlanet");
         new PlanetCrudService().listAll();
 
     }
