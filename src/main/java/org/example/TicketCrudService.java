@@ -1,25 +1,27 @@
 package org.example;
 
 import entity.Client;
-import lombok.Getter;
+import entity.Planet;
+import entity.Ticket;
+import lombok.Data;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
-import storage.DataBaseInitService;
+import org.hibernate.annotations.CurrentTimestamp;
 
+import java.security.Timestamp;
+import java.util.Date;
 import java.util.List;
 
-public class ClientCrudService {
+public class TicketCrudService {
     private final SessionFactory sessionFactory = HibernateUtil.getINSTANCE().getSessionFactory();
 
 
-    public void create(Client client) {
+    public void create(Ticket ticket) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            session.persist(client);
+            session.persist(ticket);
             transaction.commit();
         } catch (Exception ex) {
             if (transaction != null) {
@@ -30,13 +32,20 @@ public class ClientCrudService {
         }
     }
 
+    public Ticket getById(long id) {
+        Session session = sessionFactory.openSession();
+        Ticket ticket = session.get(Ticket.class, id);
+        System.out.println("ticket = " + ticket);
+        session.close();
+        return ticket;
+    }
 
-    public void update(Client client) {
+
+    public void update(Ticket ticket) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Client existing = session.get(Client.class, client.getId());
+        Ticket existing = session.get(Ticket.class, ticket.getId());
         try {
-            existing.setName(client.getName());
             session.persist(existing);
             transaction.commit();
         } catch (Exception ex) {
@@ -48,23 +57,12 @@ public class ClientCrudService {
         }
     }
 
-
-
-    public Client getById(long id) {
-        Session session = sessionFactory.openSession();
-        Client client = session.get(Client.class, id);
-        System.out.println("client = " + client);
-        session.close();
-        return client;
-    }
-
-
-    public Client deleteById(long id) {
+    public Ticket deleteById(long id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Client client = session.get(Client.class, id);
+        Ticket ticket = session.get(Ticket.class, id);
         try {
-            session.remove(client);
+            session.remove(ticket);
             transaction.commit();
         } catch (Exception ex) {
             if (transaction != null) {
@@ -77,12 +75,12 @@ public class ClientCrudService {
     }
 
 
-    public List<Client> listAll() {
+    public List<Ticket> listAll() {
         Session session = sessionFactory.openSession();
-        List<Client> clients = session.createQuery("from Client", Client.class).list();
-        System.out.println("clients = " + clients);
+        List<Ticket> tickets = session.createQuery("from Ticket", Ticket.class).list();
+        System.out.println("tickets = " + tickets);
         session.close();
-        return clients;
+        return tickets;
     }
 
 }
